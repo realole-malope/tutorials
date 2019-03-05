@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="olebogeng.malope (generated)" id="1551768729197-1">
+        <createSequence sequenceName="role_id_seq"/>
+    </changeSet>
+
+    <changeSet author="olebogeng.malope (generated)" id="1551768729197-2">
+        <createSequence sequenceName="user_id_seq"/>
+    </changeSet>
+
+    <changeSet author="olebogeng.malope (generated)" id="1551768729197-3">
+        <createTable tableName="role">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="role_pkey"/>
+            </column>
+            <column name="reference_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT"/>
+            <column name="name" type="VARCHAR(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="olebogeng.malope (generated)" id="1551768729197-4">
+        <createTable tableName="user_role">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="olebogeng.malope (generated)" id="1551768729197-5">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="user_pkey"/>
+            </column>
+            <column name="reference_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="olebogeng.malope (generated)" id="1551768729197-6">
+        <addPrimaryKey columnNames="user_id, role_id" constraintName="user_role_pkey" tableName="user_role"/>
+    </changeSet>
+
+    <changeSet author="olebogeng.malope (generated)" id="1551768729197-7">
+        <addUniqueConstraint columnNames="name" constraintName="uk_role_name" tableName="role"/>
+    </changeSet>
+
+    <changeSet author="olebogeng.malope (generated)" id="1551768729197-8">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_role"
+                                 constraintName="fka68196081fvovjhkek5m97n3y" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+
+    <changeSet author="olebogeng.malope (generated)" id="1551768729197-9">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_role"
+                                 constraintName="fkj345gk1bovqvfame88rcx7yyx" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="user"/>
+    </changeSet>
+
+</databaseChangeLog>
